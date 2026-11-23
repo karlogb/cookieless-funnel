@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cookieless-funnel demo</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    .hp { position: absolute; left: -9999px; }
+    label { display: block; margin: .5rem 0; }
+  </style>
+  <script>
+    // Optional configuration, must come before the script tag.
+    window.cookielessFunnel = {
+      endpoint: "/api/f",
+      // Group URLs into page kinds instead of storing full paths (optional).
+      page: function (path) { return path === "/" || path === "/index.html" ? "home" : "other"; }
+    };
+  </script>
+  <script src="/funnel.js" data-lang defer></script>
+</head>
+<body>
+  <h1>cookieless-funnel demo</h1>
+  <p>Open this page, click the buttons, submit the form, then run
+     <code>node bin/report.mjs --dir ./data --steps view,cta_click,signup_started,signup_done</code>.</p>
+  <p>Try it with <a href="/?utm_source=newsletter">?utm_source=newsletter</a> or
+     <a href="/?gclid=test">?gclid=test</a> to see paid vs organic.</p>
+
+  <p><a href="#signup" data-funnel="cta_click">Call to action (data attribute)</a></p>
+  <p><button type="button" onclick="funnel('signup_started', 1)">Start signup (JS API, step 1)</button></p>
+
+  <form id="signup" method="post" action="#" data-funnel="signup_done" data-guard
+        onsubmit="event.preventDefault(); var f = this; setTimeout(function () { f.querySelector('output').value = 'guard fields: fe=' + f.fe.value + ' fi=' + f.fi.value; });">
+    <label>Email <input name="email" type="email"></label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button>Sign up</button>
+    <output></output>
+  </form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "cookieless-funnel",
+  "version": "0.1.0",
+  "description": "Count page views, clicks and funnel steps without cookies, storage or identifiers.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Karol Bolgár <karol@nulllogic.eu> (https://nulllogic.eu)",
+  "repository": { "type": "git", "url": "git+https://github.com/karlogb/cookieless-funnel.git" },
+  "keywords": ["analytics", "privacy", "cookieless", "gdpr", "funnel", "web-analytics"],
+  "engines": { "node": ">=18.11" },
+  "exports": {
+    "./collector": "./server/collector.mjs",
+    "./validate": "./server/validate.mjs",
+    "./bot-guard": "./server/bot-guard.mjs",
+    "./report": "./report/lib.mjs"
+  },
+  "bin": {
+    "cookieless-funnel-collector": "bin/collector.mjs",
+    "cookieless-funnel-report": "bin/report.mjs"
+  },
+  "files": ["bin", "client", "report", "server", "worker"],
+  "scripts": {
+    "start": "node bin/collector.mjs",
+    "demo": "STATIC_DIR=example node bin/collector.mjs",
+    "report": "node bin/report.mjs",
+    "test": "node --test"
+  }
+}
